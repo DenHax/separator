@@ -9,20 +9,11 @@ import (
 	"unicode"
 )
 
-func dotSepar(words []string, count int) {
+func doSeparate(words []string, count int, separator string) {
 	for _, word := range words {
 		fmt.Print(word)
 		for range count {
-			fmt.Print(".")
-		}
-	}
-}
-
-func commaSepar(words []string, count int) {
-	for _, word := range words {
-		fmt.Print(word)
-		for range count {
-			fmt.Print(",")
+			fmt.Print(separator)
 		}
 	}
 }
@@ -90,11 +81,5 @@ func main() {
 
 	separator, sepCount := parseSeparator(separatorInput)
 
-	if separator == "." {
-		dotSepar(words, sepCount)
-	} else if separator == "," {
-		commaSepar(words, sepCount)
-	} else {
-		fmt.Fprint(out, "Введены некорректные данные")
-	}
+	doSeparate(words, sepCount, separator)
 }
