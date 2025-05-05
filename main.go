@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"unicode"
 )
 
 func doSeparate(words []string, count int, separator string) {
@@ -18,39 +17,6 @@ func doSeparate(words []string, count int, separator string) {
 	}
 }
 
-func parseSeparator(input string) (sep string, count int) {
-	input = strings.TrimSpace(input)
-	if input == "" {
-		return
-	}
-
-	var digits strings.Builder
-	var separator strings.Builder
-	hasDigits := false
-	hasSeparator := false
-
-	for _, r := range input {
-		if unicode.IsDigit(r) {
-			digits.WriteRune(r)
-			hasDigits = true
-		} else if !unicode.IsSpace(r) {
-			separator.WriteRune(r)
-			hasSeparator = true
-		}
-	}
-
-	if hasDigits {
-		if num, err := strconv.Atoi(digits.String()); err == nil && num > 0 {
-			count = num
-		}
-	}
-	if hasSeparator {
-		sep = string([]rune(separator.String())[0])
-	}
-
-	return
-}
-
 func main() {
 	var in *bufio.Reader
 	var out *bufio.Writer
@@ -60,7 +26,6 @@ func main() {
 
 	var wordCount int
 	words := make([]string, 0)
-	var separatorInput string
 
 	fmt.Println("Введите количество слов:")
 	fmt.Fscan(in, &wordCount)
@@ -73,13 +38,23 @@ func main() {
 		words = append(words, word)
 	}
 
-	fmt.Println("Введите сепаратор и количество повторений (например, '.3' или '2,' или ':'):")
-
 	in.ReadString('\n')
-	separatorInput, _ = in.ReadString('\n')
-	separatorInput = strings.TrimSpace(separatorInput)
 
-	separator, sepCount := parseSeparator(separatorInput)
+	var separator string
+	var sepCount int = 1
+	var sepCountInput string
+
+	fmt.Println("Введите сепаратор:")
+	fmt.Fscan(in, &separator)
+	in.ReadString('\n')
+	fmt.Println("Введите количество повторений сепаратора (по умолчанию: 1):")
+
+	sepCountInput, _ = in.ReadString('\n')
+	sepCountInput = strings.TrimSpace(sepCountInput)
+
+	if sepCountInput != "" {
+		sepCount, _ = strconv.Atoi(sepCountInput)
+	}
 
 	doSeparate(words, sepCount, separator)
 }
