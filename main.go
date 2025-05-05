@@ -27,15 +27,6 @@ func commaSepar(words []string, count int) {
 	}
 }
 
-func semiSepar(words []string, count int) {
-	for _, word := range words {
-		fmt.Print(word)
-		for range count {
-			fmt.Print(":")
-		}
-	}
-}
-
 func parseSeparator(input string) (sep string, count int) {
 	input = strings.TrimSpace(input)
 	if input == "" {
@@ -106,9 +97,4 @@ func main() {
 	} else {
 		fmt.Fprint(out, "Введены некорректные данные")
 	}
-	// TODO: semiSepar doesnt work right
-	// else if separator == ";" {
-	//   semiSepar(words)
-	// }
-
 }
