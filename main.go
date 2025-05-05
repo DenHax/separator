@@ -76,33 +76,33 @@ func main() {
 	out = bufio.NewWriter(os.Stdout)
 	defer out.Flush()
 
-	var n int
-	arr := make([]string, 0)
-	var str string
+	var wordCount int
+	words := make([]string, 0)
+	var separatorInput string
 
 	fmt.Println("Введите количество слов:")
-	fmt.Fscan(in, &n)
+	fmt.Fscan(in, &wordCount)
 	in.ReadString('\n')
 
 	fmt.Println("Вводите слова:")
-	for range n {
+	for range wordCount {
 		var word string
 		fmt.Fscan(in, &word)
-		arr = append(arr, word)
+		words = append(words, word)
 	}
 
 	fmt.Println("Введите сепаратор и количество повторений (например, '.3' или '2,' или ':'):")
 
 	in.ReadString('\n')
-	str, _ = in.ReadString('\n')
-	str = strings.TrimSpace(str)
+	separatorInput, _ = in.ReadString('\n')
+	separatorInput = strings.TrimSpace(separatorInput)
 
-	sep, m := parseSeparator(str)
+	separator, sepCount := parseSeparator(separatorInput)
 
-	if sep == "." {
-		dotSepar(arr, m)
-	} else if sep == "," {
-		commaSepar(arr, m)
+	if separator == "." {
+		dotSepar(words, sepCount)
+	} else if separator == "," {
+		commaSepar(words, sepCount)
 	} else {
 		fmt.Fprint(out, "Введены некорректные данные")
 	}
